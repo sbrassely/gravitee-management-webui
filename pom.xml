@@ -132,36 +132,51 @@
                 <artifactId>replacer</artifactId>
                 <version>1.5.3</version>
                 <executions>
-                    <execution>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                        <configuration>
-                            <includes>
-                                <include>${project.basedir}/package.json</include>
-                                <include>${project.basedir}/build.json</include>
-                            </includes>
-                            <replacements>
-                                <replacement>
-                                    <token>"name"(\s*):(\s*)"(.*)"</token>
-                                    <value>"name": "${project.artifactId}"</value>
-                                </replacement>
-                                <replacement>
-                                    <token>"version": "(.*)"</token>
-                                    <value>"version": "${project.version}"</value>
-                                </replacement>
-                                <replacement>
-                                    <token>'version': '(.*)'</token>
-                                    <value>'version': '${project.version}'</value>
-                                </replacement>
-                                <replacement>
-                                    <token>"description"(\s*):(\s*)"(.*)"</token>
-                                    <value>"description": "${project.name}"</value>
-                                </replacement>
-                            </replacements>
-                        </configuration>
-                    </execution>
+                  <execution>
+                    <id>replace-version</id>
+                    <phase>generate-resources</phase>
+                    <goals>
+                      <goal>replace</goal>
+                    </goals>
+                    <configuration>
+                      <includes>
+                        <include>${project.basedir}/package.json</include>
+                        <include>${project.basedir}/build.json</include>
+                      </includes>
+                      <replacements>
+                        <replacement>
+                          <token>"name"(\s*):(\s*)"(.*)"</token>
+                          <value>"name": "${project.artifactId}"</value>
+                        </replacement>
+                        <replacement>
+                          <token>"version": "(.*)"</token>
+                          <value>"version": "${project.version}"</value>
+                        </replacement>
+                        <replacement>
+                          <token>'version': '(.*)'</token>
+                          <value>'version': '${project.version}'</value>
+                        </replacement>
+                      </replacements>
+                    </configuration>
+                  </execution>
+                  <execution>
+                    <id>replace-base-url</id>
+                    <phase>package</phase>
+                    <goals>
+                      <goal>replace</goal>
+                    </goals>
+                    <configuration>
+                      <includes>
+                        <include>${project.basedir}/dist/constants.json</include>
+                      </includes>
+                      <replacements>
+                        <replacement>
+                          <token>"baseURL": "(.*)"</token>
+                          <value>"baseURL": "http://localhost:8083/management/"</value>
+                        </replacement>
+                      </replacements>
+                    </configuration>
+                  </execution>
                 </executions>
             </plugin>
         </plugins>
